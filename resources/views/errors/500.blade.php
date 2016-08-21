@@ -1,17 +1,20 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
 
-@section('htmlheader_title')
-    {{ trans('adminlte_lang::message.servererror') }}
-@endsection
+@section('htmlheader')
+    @include('layouts.partials.htmlheader')
+@show
 
-@section('contentheader_title')
-    {{ trans('adminlte_lang::message.500error') }}
-@endsection
+<body class="skin-green sidebar-mini">
+<div>
 
-@section('$contentheader_description')
-@endsection
 
-@section('main-content')
+    <!-- Content Wrapper. Contains page content -->
+    <div>
 
     <div class="error-page">
         <h2 class="headline text-red">500</h2>
@@ -21,14 +24,10 @@
                 {{ trans('adminlte_lang::message.wewillwork') }}
                 {{ trans('adminlte_lang::message.mainwhile') }} <a href='{{ url('/home') }}'>{{ trans('adminlte_lang::message.returndashboard') }}</a> {{ trans('adminlte_lang::message.usingsearch') }}
             </p>
-            <form class='search-form'>
-                <div class='input-group'>
-                    <input type="text" name="search" class='form-control' placeholder="{{ trans('adminlte_lang::message.search') }}"/>
-                    <div class="input-group-btn">
-                        <button type="submit" name="submit" class="btn btn-danger btn-flat"><i class="fa fa-search"></i></button>
-                    </div>
-                </div><!-- /.input-group -->
-            </form>
         </div>
-    </div><!-- /.error-page -->
-@endsection
+
+        </div><!-- error-page !-->
+    </div><!-- ./wrapper -->
+</div>
+</body>
+</html>
