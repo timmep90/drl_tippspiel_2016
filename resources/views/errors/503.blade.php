@@ -20,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="error-page">
             <h2 class="headline text-red">503</h2>
             <div class="error-content">
-                <h3><i class="fa fa-warning text-red"></i> We are sorry. The page is currently under maintenance.</h3>
+                <h3><i class="fa fa-warning text-red"></i> We are sorry. This page is currently under maintenance.</h3>
                 <p>
                     Please try again later.
                 </p>
