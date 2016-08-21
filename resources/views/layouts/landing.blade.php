@@ -48,7 +48,7 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><b>Dr. Lüpkes GbR</b></a>
+            <a class="navbar-brand" href="#"><b>Lueti Apps</b></a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -69,7 +69,8 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
 
 <div class="text-center">
     <h1>This page is currently only available for private usage.</h1>
-    <h2>Privatnutzer gelangen über Tippspiel, Login oder Register zum Tippspiel selbst.</h2>
+    <h2>Privatnutzer gelangen über Tippspiel, Login oder Register zum Tippspiel.</h2>
+    <p> (Eine Aktivierung durch den Administrator ist zur Teilnahme erforderlich.) </p>
 </div>
 </body>
 </html>
