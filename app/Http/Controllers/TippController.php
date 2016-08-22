@@ -10,12 +10,14 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Pagination\Paginator;
 
 
 class TippController extends Controller
 {
     /**
      * Create a new controller instance.
+     * Only for activated user joined this group.
      *
      * @return void
      */
@@ -34,15 +36,22 @@ class TippController extends Controller
      */
     public function show($id, Request $request)
     {
+        /* Set current page of Pagination */
+        $currentPage = setActivePage($request->page);
+
+        /* Fetch and update League data if available */
         $openliga = new \App\Library\DBOpenLigaConnector();
         $openliga->updateOpenLigaDataByGroup($id);
 
+        /* Calculate Ranking for all user */
         $user_list = calcAndSavePoints($id)->load('user');
 
+        /* Fetch Matchdata for this group and day */
         $match_list = Match::with('club1', 'club2')->whereGroup($id)
-            ->paginate(Match::where('matchday',$request->page)->whereGroup($id)->count());
+            ->paginate(Match::where('matchday',$currentPage)->whereGroup($id)->count());
 
-        $tipp_list = MatchTip::with('match')->whereMatchday($request->page)->where('group_id', $id)
+        /* Fetch User bets for these games */
+        $tipp_list = MatchTip::with('match')->whereMatchday($currentPage)->where('group_id', $id)
             ->orderBy('user_id')->orderBy('id')->get();
 
         return view('tippspiel.results', compact('match_list', 'user_list', 'tipp_list'));
@@ -56,11 +65,13 @@ class TippController extends Controller
      */
     public function edit($id, Request $request)
     {
+        $currentPage = setActivePage($request->page);
+
         $openliga = new \App\Library\DBOpenLigaConnector();
         $openliga->updateOpenLigaDataByGroup($id);
 
         $mt_list = MatchTip::where('group_id', $id)->authUser()->with('match.club1', 'match.club2')
-            ->paginate(Match::where('matchday',$request->page)->whereGroup($id)->count());
+            ->paginate(Match::where('matchday', $currentPage)->whereGroup($id)->count());
         $group = Group::find($id);
 
         return view('tippspiel.edit', compact('mt_list', 'group'));

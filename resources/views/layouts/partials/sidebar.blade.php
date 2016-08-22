@@ -32,13 +32,13 @@
                 @foreach($eager_user->user_group as $ug)
                     @if($ug->pending == 0)
                         <li class="treeview {{ checkActive('group/'.$ug->group->id.'/*') }}">
-                            <a href="/group/{{$ug->group->id}}/tipp?page={{$nextMatch}}"><i class='fa fa-soccer-ball-o'></i> <span>{{ $ug->group->name }}</span> <i class="fa fa-angle-left pull-right"></i></a>
+                            <a href="/group/{{$ug->group->id}}/tipp"><i class='fa fa-soccer-ball-o'></i> <span>{{ $ug->group->name }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                             <ul class="treeview-menu">
                                 <li class="{{ checkActive('group/'.$ug->group->id.'/tipp') }}">
-                                    <a href="/group/{{$ug->group->id}}/tipp?page={{$nextMatch}}"><i class='fa fa-pencil'></i> <span>{{ 'Tipps abgeben' }}</span></a>
+                                    <a href="/group/{{$ug->group->id}}/tipp"><i class='fa fa-pencil'></i> <span>{{ 'Tipps abgeben' }}</span></a>
                                 </li>
                                 <li class="{{ checkActive('group/'.$ug->group->id.'/results') }}">
-                                    <a href="/group/{{$ug->group->id}}/results?page={{$nextMatch}}"><i class='fa fa-eye'></i> <span>{{ 'Tippergebnisse ansehen' }}</span></a>
+                                    <a href="/group/{{$ug->group->id}}/results"><i class='fa fa-eye'></i> <span>{{ 'Tippergebnisse ansehen' }}</span></a>
                                 </li>
                                 <li class="{{ checkActive('group/'.$ug->group->id.'/ranking') }}">
                                     <a href="/group/{{$ug->group->id}}/ranking"><i class='fa fa-bars'></i> <span>{{ 'Tipptabelle ansehen' }}</span></a>
@@ -58,7 +58,7 @@
                         <a href="#"><i class="fa fa-cog"></i><span>{{ 'Administration' }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                         <ul class="treeview-menu ">
                             <li class="{{ checkActive('admin/user') }}">
-                                <a href="{{ url('admin/user') }}"><i class="fa fa-users"></i>{{ 'Benutzer editiren' }}</a>
+                                <a href="{{ url('admin/user') }}"><i class="fa fa-users"></i>{{ 'Benutzer editieren' }}</a>
                             </li>
                             <li class="{{ checkActive('admin/group') }}">
                                 <a href="{{ url('admin/group') }}"><i class="fa fa-files-o"></i>{{ 'Gruppenverwaltung' }}</a>

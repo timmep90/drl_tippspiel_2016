@@ -32,3 +32,25 @@ function calcMatchPoints($matchTip){
         $points = 0;
     return $points;
 }
+
+/**
+ * Function to set current Page for Match Overview (Pagination).
+ * Returns next Page for next Match day if $currentPage is empty.
+ *
+ * @param $request
+ * @return int
+ */
+function setActivePage($currentPage){
+
+    if($currentPage === null){
+        if(\App\Match::orderBy('match_datetime', 'asc')->where('match_datetime','>=',\Carbon\Carbon::today())->first() !== null)
+            $currentPage = \App\Match::orderBy('match_datetime', 'asc')->where('match_datetime','>=',\Carbon\Carbon::today())->first()->matchday;
+        else
+            $currentPage= 1;
+    }
+
+    \Illuminate\Pagination\Paginator::currentPageResolver(function () use ($currentPage) {
+        return $currentPage;
+    });
+    return $currentPage;
+}
