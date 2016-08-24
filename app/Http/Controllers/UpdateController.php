@@ -18,7 +18,7 @@ class UpdateController extends Controller
     public function index(Request $request)
     {
         $content = $request->getContent();
-        if ($content->Resource == "Competition")
+        if ($content->resource == "Competition")
             Match::first()->update(['home_team_erg'=>10]);
     }
 }
