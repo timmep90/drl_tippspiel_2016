@@ -16,21 +16,37 @@ class CreateGroupsTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->boolean('isActive');
-            $table->integer('year');
 
-            $table->integer('match_type_id')->unsigned();
-            $table->foreign('match_type_id')->references('id')->on('match_types');
+            $table->integer('league_id')->unsigned();
+            $table->foreign('league_id')->references('id')->on('leagues');
+
+            $table->integer('kt_points')->unsigned();
+            $table->integer('tt_points')->unsigned();
+            $table->integer('st_points')->unsigned();
+            $table->integer('m_points');
 
             $table->timestamps();
         });
 
-        Schema::create('group_match', function (Blueprint $table){
+        Schema::create('group_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('match_id')->unsigned();
-            $table->foreign('match_id')->references('id')->on('matches')->onDelete('cascade');
+
+            $table->integer('kt')->unsigned();
+            $table->integer('tt')->unsigned();
+            $table->integer('st')->unsigned();
+            $table->integer('m')->unsigned();
+            $table->integer('points')->unsigned();
+            $table->boolean('isAdmin');
+            $table->boolean('pending');
+
+
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->integer('group_id')->unsigned();
-            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+            $table->foreign('group_id')->references('id')->on('groups');
+
+            $table->timestamps();
         });
 
     }
@@ -42,7 +58,8 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('group_match');
+        Schema::drop('group_user');
         Schema::drop('groups');
+
     }
 }

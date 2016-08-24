@@ -15,7 +15,7 @@ class AuthenticateGroupUser
      */
     public function handle($request, Closure $next)
     {
-        $isUser = $request->user()->user_group->where('group_id',(int)$request->id)->where('pending', 0)->first();
+        $isUser = $request->user()->group_user->where('group_id',(int)$request->id)->where('pending', 0)->first();
 
         if ($isUser)
             return $next($request);

@@ -29,16 +29,16 @@
                     </tfoot>
                     <tbody>
                         @foreach($user_list as $u)
-                            @if($u->id == Auth::user()->id)
+                            @if($u->user->id == Auth::user()->id)
                                 <tr class="info">
                             @else
                                 <tr>
                             @endif
                                 <td>{{$u->user->name}}</td>
-                                @foreach($tipp_list->where('user_id', $u->id) as $tipp)
+                                @foreach($tipp_list->where('group_user.user_id', $u->user->id) as $tipp)
 
-                                        @if( (\Carbon\Carbon::now() <= $tipp->match->match_datetime) && $u->id != Auth::user()->id)
-                                            @if($tipp->t1 !== null && $tipp->t2 !== null)
+                                        @if( (\Carbon\Carbon::now() <= $tipp->match->date) && $u->user->id != Auth::user()->id)
+                                            @if($tipp->home_team_bet !== null && $tipp->vis_team_bet !== null)
                                                 <td class="alert alert-success">
                                                 - : -
                                                 </td>
@@ -47,11 +47,11 @@
                                                 - : -
                                                 </td>
                                             @endif
-                                        @elseif($tipp->t1 !== null && $tipp->t2 !== null)
+                                        @elseif($tipp->home_team_bet !== null && $tipp->vis_team_bet !== null)
                                             <td class="alert alert-success">
-                                                {{ $tipp->t1 }} : {{$tipp->t2 }} ({{calcMatchPoints($tipp)}})
+                                                {{ $tipp->home_team_bet }} : {{$tipp->vis_team_bet }} ({{calcMatchPoints($tipp)}})
                                             </td>
-                                        @elseif($u->id == Auth::user()->id)
+                                        @elseif($u->user->id == Auth::user()->id)
                                             <td class="alert alert-danger">
                                                 - : -
                                             </td>

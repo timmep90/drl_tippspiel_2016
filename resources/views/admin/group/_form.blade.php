@@ -3,11 +3,8 @@
     {{ Form::label('name', 'Gruppenname:') }}
     {{Form::text('name', null, ["class"=>"form-control", 'placeholder' => "Mein Gruppenname"])}}
 
-    {{ Form::label('match_type', 'Tippliga:') }}
-    {{ Form::select("match_type", $match_type_list, null, ['class' => 'form-control']) }}
-
-    {{ Form::label('year', 'Gruppenname:') }}
-    {{ Form::text('year', null, ["class"=>"form-control", 'placeholder' => "Startjahr der Saison"])}}
+    {{ Form::label('league', 'Tippliga:') }}
+    {{ Form::select("league", $leagues, null, ['class' => 'form-control']) }}
 
     {{ Form::label('admin', 'Administrator:') }}
     {{ Form::select("admin", $users, null, ['class' => 'form-control']) }}

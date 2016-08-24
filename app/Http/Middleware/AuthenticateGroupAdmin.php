@@ -15,8 +15,8 @@ class AuthenticateGroupAdmin
      */
     public function handle($request, Closure $next)
     {
-        $isUser = $request->user()->user_group->where('group_id',(int)$request->id)->first();
-        $isUser ?$isAdmin = $request->user()->user_group->where('group_id',(int)$request->id)->first()->isAdmin
+        $isUser = $request->user()->group_user->where('group_id',(int)$request->id)->first();
+        $isUser ?$isAdmin = $request->user()->group_user->where('group_id',(int)$request->id)->first()->isAdmin
             :$isAdmin = false;
 
         if ($isAdmin)

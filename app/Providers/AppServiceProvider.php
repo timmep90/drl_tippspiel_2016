@@ -18,8 +18,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('layouts.partials.sidebar', function($view){
-            if(User::with('user_group.group')->find(Auth::user()->id) !== null)
-                $view->with('eager_user', User::with('user_group.group')->find(Auth::user()->id));
+            if(User::with('group_user.group')->find(Auth::user()->id) !== null)
+                $view->with('eager_user', User::with('group_user.group')->find(Auth::user()->id));
         });
     }
 

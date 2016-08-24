@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\League;
 use App\Match;
 use App\MatchTip;
 
 use Carbon\Carbon;
+use Grambas\FootballData\Facades\FootballDataFacade;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Illuminate\Pagination\Paginator;
 
 
 class TippController extends Controller
@@ -36,42 +37,46 @@ class TippController extends Controller
      */
     public function show($id, Request $request)
     {
-        /* Set current page of Pagination */
-        $currentPage = setActivePage($request->page);
 
-        /* Fetch and update League data if available */
-        $openliga = new \App\Library\DBOpenLigaConnector();
-        $openliga->updateOpenLigaDataByGroup($id);
+        $league_id =League::findGroup($id)->id;
+        /* Set current page of Pagination */
+        $currentPage = setActivePage($request->page, $id);
+
+        updateMatches($id);
 
         /* Calculate Ranking for all user */
         $user_list = calcAndSavePoints($id)->load('user');
 
         /* Fetch Matchdata for this group and day */
-        $match_list = Match::with('club1', 'club2')->whereGroup($id)
-            ->paginate(Match::where('matchday',$currentPage)->whereGroup($id)->count());
+        $match_list = Match::with('home_team', 'vis_team')->where('league_id', $league_id)
+            ->paginate(Match::where([['league_id',$league_id],['matchday', $currentPage]])->count());
 
         /* Fetch User bets for these games */
-        $tipp_list = MatchTip::with('match')->whereMatchday($currentPage)->where('group_id', $id)
-            ->orderBy('user_id')->orderBy('id')->get();
+        $tipp_list = MatchTip::with('match')->whereMatchday($currentPage)->whereGroup($id)
+            ->orderBy('group_user_id')->orderBy('id')->get();
 
         return view('tippspiel.results', compact('match_list', 'user_list', 'tipp_list'));
     }
 
     /**
-     * Change your own result bets.
+     * View for editing bets
      *
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id, Request $request)
     {
-        $currentPage = setActivePage($request->page);
+        $league_id =League::findGroup($id)->id;
 
-        $openliga = new \App\Library\DBOpenLigaConnector();
-        $openliga->updateOpenLigaDataByGroup($id);
+        /* Fetch active page for current match if page is empty */
+        $currentPage = setActivePage($request->page, $id);
 
-        $mt_list = MatchTip::where('group_id', $id)->authUser()->with('match.club1', 'match.club2')
-            ->paginate(Match::where('matchday', $currentPage)->whereGroup($id)->count());
+        /* Get football data from API and update DB */
+        updateMatches($id);
+
+        /* Get user bets for matches */
+        $mt_list = MatchTip::whereGroup($id)->authUser()->with('match.home_team', 'match.vis_team')
+            ->paginate(Match::where([['league_id',$league_id],['matchday', $currentPage]])->count());
         $group = Group::find($id);
 
         return view('tippspiel.edit', compact('mt_list', 'group'));
@@ -79,7 +84,7 @@ class TippController extends Controller
 
 
     /**
-     * Update your bets
+     * Update user bets
      *
      * @param $id
      * @param Requests\TippRequest $request
@@ -89,6 +94,7 @@ class TippController extends Controller
         $lastKey = 1; $info = false;
         $matches_tips = MatchTip::with('match')->get();
 
+        /* Update user bets */
         if($request->club1_tipp){
             foreach($request->club1_tipp as $i => $tipp){
                 ($tipp == '')?$t1 = null: $t1 = $tipp;
@@ -96,8 +102,9 @@ class TippController extends Controller
                 $matchtip = $matches_tips->find($i);
 
                 // Update match if it didn't start yet
-                if(Carbon::now()->subMinutes(30) <= $matchtip->match->match_datetime)
-                    $matchtip->update(['t1' => $t1, 't2' => $t2]);
+                if(Carbon::now()->subMinutes(30) <= $matchtip->match->date){
+                    $matchtip->update(['home_team_bet' => $t1, 'vis_team_bet' => $t2]);
+                }
                 $lastKey = $i;
 
                 // Check for values beyond limit to inform user about possible mistake.
@@ -106,6 +113,7 @@ class TippController extends Controller
             }
         }
 
+        /* Flash Info for high values */
         ($info == true)? flash('Falschen Wert eingetragen? Bitte überprüfen.', 'alert-warning') : flash('Erfolgreich eingetragen');
 
         $matchDay = $matches_tips->find($lastKey)->match->matchday;
@@ -120,8 +128,7 @@ class TippController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function rank($id){
-        $openliga = new \App\Library\DBOpenLigaConnector();
-        $openliga->updateOpenLigaDataByGroup($id);
+        updateMatches($id);
 
         $user_groups = calcAndSavePoints($id);
 

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClubsTable extends Migration
+class CreateTeamsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,15 @@ class CreateClubsTable extends Migration
      */
     public function up()
     {
-        Schema::create('clubs', function (Blueprint $table) {
+        Schema::create('teams', function (Blueprint $table) {
+
             $table->increments('id');
-            $table->string('name');
-            $table->integer('nr');
-            $table->string('logo');
+
+            $table->string('name')->unique();
+            $table->string('short_name')->nullable();
+            $table->string('shortcut')->nullable();
+
+            $table->string('logo')->nullable();
 
             $table->timestamps();
         });
@@ -29,6 +33,6 @@ class CreateClubsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('clubs');
+        Schema::drop('teams');
     }
 }

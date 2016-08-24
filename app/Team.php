@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Club extends Model
+class Team extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class Club extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'type', 'logo',
+        'name', 'short_name', 'shortcut', 'logo',
     ];
 
     public function matches()
@@ -20,5 +20,9 @@ class Club extends Model
         return $this->hasMany('App\Match');
     }
 
+    public function leagues()
+    {
+        return $this->belongsToMany('App\League');
+    }
 
 }

@@ -40,17 +40,35 @@ function calcMatchPoints($matchTip){
  * @param $request
  * @return int
  */
-function setActivePage($currentPage){
+function setActivePage($currentPage, $id){
 
-    if($currentPage === null){
-        if(\App\Match::orderBy('match_datetime', 'asc')->where('match_datetime','>=',\Carbon\Carbon::today())->first() !== null)
-            $currentPage = \App\Match::orderBy('match_datetime', 'asc')->where('match_datetime','>=',\Carbon\Carbon::today())->first()->matchday;
-        else
-            $currentPage= 1;
+    if($currentPage === null) {
+        $group = \App\Group::find($id);
+        $currentPage = $group->league->current_matchday;
     }
 
     \Illuminate\Pagination\Paginator::currentPageResolver(function () use ($currentPage) {
         return $currentPage;
     });
     return $currentPage;
+}
+
+function updateMatches($group_id){
+    $league = \App\League::findGroup($group_id);
+
+    $matches = json_decode(FootballDataFacade::getLeagueFixtures($league->ext_id))->fixtures;
+
+    $teams = \App\Team::whereHas('leagues', function ($query) use ($league){
+        return $query->where('leagues.id', $league->id);
+    })->get();
+
+
+    foreach ($matches as $match){
+        $homeTeam = $teams->where('name', $match->homeTeamName)->first()->id;
+        $visitingTeam = $teams->where('name', $match->awayTeamName)->first()->id;
+
+        \App\Match::updateOrCreate(['league_id'=>$league->id, 'home_team_id'=>$homeTeam, 'vis_team_id'=>$visitingTeam],
+            ['home_team_erg'=>$match->result->goalsHomeTeam, 'vis_team_erg'=>$match->result->goalsAwayTeam,
+                'matchday'=>$match->matchday, 'date'=>\Carbon\Carbon::parse($match->date)->addHours(2), 'status' => $match->status]);
+    }
 }

@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\League;
 use App\UserGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,16 +36,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $groups = Group::with('user_group', 'match_type', 'setting')->active()->get();
+        $groups = Group::with('group_user', 'league')->active()->get();
         return view('home', compact('groups'));
     }
 
     public function joinGroup(Request $request)
     {
+        $league_id = League::findGroup($request->id)->id;
+
         if(UserGroup::where('user_id', Auth::user()->id)->where('group_id', $request->id)->first() === null)
             UserGroup::create(['user_id' => Auth::user()->id, 'pending' => 0, 'isAdmin' => false, 'group_id' => $request->id]);
 
-        createBetsFor(Auth::user()->id, $request->id);
+        createBetsFor(Auth::user()->id, $request->id,$league_id);
 
         $groups = Group::active()->get();
         return view('home', compact('groups'));

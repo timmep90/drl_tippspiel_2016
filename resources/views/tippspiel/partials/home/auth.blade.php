@@ -11,7 +11,7 @@
                         {{$group->name}}
                     </h4>
                     <h5>
-                        {{$group->year}} - {{$group->match_type->name}}
+                        {{$group->league->name}}
                     </h5>
                 </div>
                 <div class="box-body">
@@ -26,29 +26,29 @@
                             <tbody>
                             <tr>
                                 <td> Kopftipp </td>
-                                <td> {{$group->setting->kt_points}} </td>
+                                <td> {{$group->kt_points}} </td>
                             </tr>
                             <tr>
                                 <td> Tendenztipp </td>
-                                <td> {{$group->setting->tt_points}}</td>
+                                <td> {{$group->tt_points}}</td>
                             </tr>
                             <tr>
                                 <td> Siegertipp </td>
-                                <td> {{$group->setting->st_points}} </td>
+                                <td> {{$group->st_points}} </td>
                             </tr>
                             <tr>
                                 <td> Fehltipp </td>
-                                <td> {{$group->setting->m_points}} </td>
+                                <td> {{$group->m_points}} </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    @if($group->user_group->where('user_id', Auth::user()->id)->isEmpty())
+                    @if($group->group_user->where('user_id', Auth::user()->id)->isEmpty())
                         {{Form::open(array('action' => 'HomeController@joinGroup'))}}
                         {{Form::hidden('id', $group->id)}}
                         {{Form::submit('Gruppe beitreten', ['class' => "btn btn-success pull-right "])}}
                         {{Form::close()}}
-                    @elseif($group->user_group->where('user_id', Auth::user()->id)->where('pending', 0)->isEmpty())
+                    @elseif($group->group_user->where('user_id', Auth::user()->id)->where('pending', 0)->isEmpty())
                         <i class="pull-right">Warten auf Annahme....</i>
                     @else
                         <a href="{{ action('TippController@edit', ['id' => $group->id]) }}" class="btn btn-success pull-right"> Tipps abgeben </a>

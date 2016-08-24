@@ -18,7 +18,7 @@
                     </div>
                     <div class="box-body">
                         <div class="col-md-12 row">
-                            Typ: {{$group->match_type->name}}
+                            Typ: {{$group->league->name}}
                         </div>
                         <a href="{{ action('GroupController@edit', ['id' => $group->id]) }}" class="btn btn-success pull-left"><i class="fa fa-edit"></i> Gruppe editieren </a>
 

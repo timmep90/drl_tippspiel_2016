@@ -29,29 +29,29 @@
                             <div class="col-md-4">
                                 <div class="box box-success box-solid">
                                     <div class="box-header">
-                                        <h4><i>{{$mt->match->match_datetime->format('d.m.Y H:i')}}</i></h4>
-                                        <h3 class="box-title"> {{$mt->match->club1->name}}  : {{$mt->match->club2->name}} </h3>
+                                        <h4><i>{{\Carbon\Carbon::parse($mt->match->date)->format('d.m.Y H:i')}}</i></h4>
+                                        <h3 class="box-title"> {{$mt->match->home_team->name}}  : {{$mt->match->vis_team->name}} </h3>
                                     </div>
 
                                     <!-- /.box-header -->
                                     <div class="box-body">
                                         <div class="col-md-1"></div>
                                         <div class="col-md-3">
-                                            @if(\Carbon\Carbon::now()->addMinutes(30) < $mt->match->match_datetime)
-                                                {{Form::text('club1_tipp['.$mt->id.']', $mt->t1, ["class"=>"form-control"])}}
+                                            @if(\Carbon\Carbon::now()->addMinutes(30) < $mt->match->date)
+                                                {{Form::text('club1_tipp['.$mt->id.']', $mt->home_team_bet, ["class"=>"form-control"])}}
                                             @else
-                                                {{Form::text('club1_tipp['.$mt->id.']', $mt->t1, ["class"=>"form-control", "disabled"])}}
+                                                {{Form::text('club1_tipp['.$mt->id.']', $mt->home_team_bet, ["class"=>"form-control", "disabled"])}}
                                             @endif
                                         </div>
                                         <div class="col-md-4">
-                                            <img src="{{$mt->match->club1->logo}}" class="team-logo"> {{$mt->match->erg1}}
-                                            : {{$mt->match->erg2}} <img src="{{$mt->match->club2->logo}}" class="team-logo">
+                                            <img src="{{$mt->match->home_team->logo}}" class="team-logo"> {{$mt->match->home_team_erg}}
+                                            : {{$mt->match->vis_team_erg}} <img src="{{$mt->match->vis_team->logo}}" class="team-logo">
                                         </div>
                                         <div class="col-md-3">
-                                            @if(\Carbon\Carbon::now()->addMinutes(30) < $mt->match->match_datetime)
-                                                {{Form::text('club2_tipp['.$mt->id.']',  $mt->t2, ["class"=>"form-control"])}}
+                                            @if(\Carbon\Carbon::now()->addMinutes(30) < $mt->match->date)
+                                                {{Form::text('club2_tipp['.$mt->id.']',  $mt->vis_team_bet, ["class"=>"form-control"])}}
                                             @else
-                                                {{Form::text('club2_tipp['.$mt->id.']',  $mt->t2, ["class"=>"form-control", "disabled"])}}
+                                                {{Form::text('club2_tipp['.$mt->id.']',  $mt->vis_team_bet, ["class"=>"form-control", "disabled"])}}
                                             @endif
                                         </div>
                                         <div class="col-md-1"></div>

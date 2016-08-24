@@ -12,35 +12,20 @@ class Group extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'match_type_id','year', 'isActive',
+        'name', 'league_id', 'isActive', 'kt_points', 'tt_points', 'st_points', 'm_points'
     ];
 
     public function scopeActive($query){
         return $query->where('isActive', true);
     }
 
-    public function user_group()
+    public function group_user()
     {
         return $this->hasMany('App\UserGroup');
     }
 
-    public function setting()
+    public function league()
     {
-        return $this->hasOne('App\Setting');
-    }
-
-    public function match_type()
-    {
-        return $this->belongsTo('App\MatchType');
-    }
-
-    public function matches_tips()
-    {
-        return $this->hasMany('App\MatchTip');
-    }
-
-    public function matches()
-    {
-        return $this->belongsTo('App\Match')->withTimestamps();
+        return $this->belongsTo('App\League');
     }
 }

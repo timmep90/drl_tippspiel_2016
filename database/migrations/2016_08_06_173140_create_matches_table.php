@@ -15,18 +15,22 @@ class CreateMatchesTable extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('ext_id')->unique();
 
-            $table->integer('club1_nr')->unsigned();
-            $table->foreign('club1_nr')->references('id')->on('clubs');
+            $table->integer('home_team_id')->unsigned();
+            $table->foreign('home_team_id')->references('id')->on('teams');
 
-            $table->integer('club2_nr')->unsigned();
-            $table->foreign('club2_nr')->references('id')->on('clubs');
+            $table->integer('vis_team_id')->unsigned();
+            $table->foreign('vis_team_id')->references('id')->on('teams');
 
-            $table->integer('erg1');
-            $table->integer('erg2');
-            $table->dateTime('match_datetime');
+            $table->integer('league_id')->unsigned();
+            $table->foreign('league_id')->references('id')->on('leagues');
+
+            $table->integer('home_team_erg')->nullable();
+            $table->integer('vis_team_erg')->nullable();
+
             $table->integer('matchday');
+            $table->string('status');
+            $table->dateTime('date');
 
             $table->timestamps();
         });

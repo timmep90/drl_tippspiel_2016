@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Group;
 use App\Http\Requests\ManageTippRequest;
 use App\Library\DBOpenLigaConnector;
 use App\Setting;
@@ -25,7 +26,7 @@ class TippAdminController extends Controller
     /* Function to manage User of specific groups */
     public function manage($id)
     {
-        $settings = Setting::where('group_id', $id)->first();
+        $settings = Group::find($id);
         $users = UserGroup::with('user')->where('group_id', $id)
             ->orderBy('created_at', 'asc')->paginate(15);
         return view('tippspiel.manage', compact('users', 'settings'));
@@ -39,10 +40,7 @@ class TippAdminController extends Controller
     public function manageUpdate($id, ManageTippRequest $request)
     {
         $ugs = UserGroup::where('group_id', '=', $id)->get();
-        $settings = Setting::where('group_id', $id)->first();
-
-        $openliga = new DBOpenLigaConnector();
-        $openliga->updateOpenLigaDataByGroup($id);
+        $settings = Group::find($id);
 
         $settings->update(['kt_points'=>$request->kt_points, 'tt_points' => $request->tt_points,
         'st_points' => $request->st_points, 'm_points' => $request->m_points]);

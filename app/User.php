@@ -36,13 +36,9 @@ class User extends Authenticatable
         return $this->belongsTo('App\UserType');
     }
 
-    public function user_group()
+    public function group_user()
     {
         return $this->hasMany('App\UserGroup');
     }
 
-    public function match_tips()
-    {
-        return $this->hasMany('App\MatchTip');
-    }
 }

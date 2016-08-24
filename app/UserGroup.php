@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserGroup extends Model
 {
-    protected $table = 'users_groups';
+    protected $table = 'group_user';
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +25,11 @@ class UserGroup extends Model
     public function group()
     {
         return $this->belongsTo('App\Group');
+    }
+
+    public function match_tips()
+    {
+        return $this->hasMany('App\MatchTip');
     }
 
 }

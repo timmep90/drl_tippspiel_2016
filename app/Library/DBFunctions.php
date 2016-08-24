@@ -1,33 +1,27 @@
 <?php
 
-function createBetsFor($user, $group)
+function createBetsFor($user, $group, $league)
 {
-    $matches = \App\Match::get();
-    $matches_tips = \App\MatchTip::where('user_id', $user)->get();
-    $isCreated = false;
+    $matches = \App\Match::where('league_id', $league)->get();
+    $group_user = \App\UserGroup::where([['user_id', $user],['group_id', $group]])->first();
+    $match_tips = \App\MatchTip::where('group_user_id', $group_user->id)->get();
 
     foreach ($matches as $match) {
-        if ($matches_tips->where('match_id', $match->id)->isEmpty()) {
-            \App\MatchTip::create(['user_id' => $user, 'match_id' => $match->id, 'group_id' => $group]);
-            $isCreated = true;
-        }
-    }
-    if (!$isCreated){
-        foreach ($matches as $match) {
-            if ($matches_tips->where('group_id', $group)->isEmpty()) {
-                \App\MatchTip::create(['user_id' => $user, 'match_id' => $match->id, 'group_id' => $group]);
-            }
-        }
+        \App\MatchTip::create(['group_user_id' => $group_user->id, 'match_id' => $match->id]);
     }
 }
 
 function calcAndSavePoints($id){
 
-    $settings = \App\Setting::where('group_id', $id)->first();
-    $user_groups = \App\UserGroup::where('group_id', $id)->get();
-    $matches_tips = \App\MatchTip::with('user', 'match')->FinishedMatches()->where('group_id', $id)->get();
-    foreach($user_groups as $ug){
-        $mts = $matches_tips->where('user_id',$ug->user_id);
+    $settings = \App\Group::find($id);
+    $group_user = \App\UserGroup::where('group_id', $id)->get();
+
+    $matches_tips = \App\MatchTip::with('group_user', 'match')->FinishedMatches()->whereHas('group_user', function($query) use ($id){
+            return $query->where('group_id', $id);
+        })->get();
+
+    foreach($group_user as $ug){
+        $mts = $matches_tips->where('group_user_id',$ug->id);
         $kt = 0; $tt = 0; $st = 0; $m = 0;
         foreach($mts as $mt){
             $t1 = $mt->t1; $t2 = $mt->t2;
@@ -48,6 +42,6 @@ function calcAndSavePoints($id){
             + $m * $settings->m_points;
         $ug->update(['kt' => $kt, 'tt' => $tt, 'st' => $st, 'm' => $m, 'points' => $pts]);
     }
-    return $user_groups->sortByDesc('points');
+    return $group_user->sortByDesc('points');
 }
 

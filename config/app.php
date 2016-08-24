@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'de',
 
     /*
     |--------------------------------------------------------------------------
@@ -108,7 +108,7 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log' => env('APP_LOG', 'errorlog'),
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
@@ -155,6 +155,7 @@ return [
          */
         Collective\Html\HtmlServiceProvider::class,
         Andinger\OpenLigaDbApi\Provider\OpenligaDBServiceProvider::class,
+        Grambas\FootballData\FootballDataServiceProvider::class,
 
 
         /*
@@ -223,6 +224,7 @@ return [
 
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'FootballDataFacade' => Grambas\FootballData\Facades\FootballDataFacade::class,
 
         /*
          * Acacha Llum Aliases...

@@ -29,7 +29,7 @@
                     <a href="{{ url('home') }}"><i class='fa fa-home'></i> <span>{{ 'Home' }}</span></a>
                 </li>
 
-                @foreach($eager_user->user_group as $ug)
+                @foreach($eager_user->group_user as $ug)
                     @if($ug->pending == 0)
                         <li class="treeview {{ checkActive('group/'.$ug->group->id.'/*') }}">
                             <a href="/group/{{$ug->group->id}}/tipp"><i class='fa fa-soccer-ball-o'></i> <span>{{ $ug->group->name }}</span> <i class="fa fa-angle-left pull-right"></i></a>

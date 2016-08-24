@@ -14,14 +14,10 @@ class Match extends Model
      * @var array
      */
     protected $fillable = [
-        'type', 'club_nr1', 'club_nr2', 'erg1', 'erg2', 'match_datetime', 'matchday', 'ext_id'
+        'type', 'home_team_id', 'vis_team_id', 'home_team_erg', 'vis_team_erg', 'date', 'matchday', 'ext_id',
+        'league_id', 'status'
     ];
 
-    public function scopeWhereGroup($query, $id){
-        return $query->whereHas('match_tips', function($query) use ($id){
-            $query->where('group_id', $id);
-        });
-    }
 
     public function match_tips()
     {
@@ -29,20 +25,19 @@ class Match extends Model
     }
 
 
-    public function club1()
+    public function home_team()
     {
-        return $this->belongsTo('App\Club', 'club1_nr');
+        return $this->belongsTo('App\Team', 'home_team_id');
     }
 
-    public function club2()
+    public function vis_team()
     {
-        return $this->belongsTo('App\Club', 'club2_nr');
+        return $this->belongsTo('App\Team', 'vis_team_id');
     }
 
-    public function groups()
+    public function league()
     {
-        return $this->hasMany('App\Group')->withTimestamps();
+        return $this->belongsTo('App\League');
     }
-
 
 }

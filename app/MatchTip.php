@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MatchTip extends Model
 {
-    protected $table = "matches_tips";
+    protected $table = "match_tips";
 
     /**
      * The attributes that are mass assignable.
@@ -16,19 +16,30 @@ class MatchTip extends Model
      * @var array
      */
     protected $fillable = [
-        'points', 't1', 't2', 'user_id', 'match_id', 'group_id'
+        'points', 'points', 'home_team_bet', 'vis_team_bet', 'match_id',  'group_user_id'
     ];
 
     public function scopeWhereMatchday($query, $matchday){
         return $query->whereHas('match', function($query) use ($matchday){
-            $query->where('matchday', $matchday)->orderBy('match_datetime');
+            $query->where('matchday', $matchday)->orderBy('date');
         });
     }
 
+    public function scopeWhereGroup($query, $id){
+        return $query->whereHas('group_user', function($query) use ($id){
+           return $query->where('group_id', $id);
+        });
+    }
+
+    public function scopeWhereUser($query, $id){
+        return $query->whereHas('group_user', function($query) use ($id){
+            return $query->where('user_id', $id);
+        });
+    }
 
     public function scopeFinishedMatches($query){
         return $query->whereHas('match', function($query){
-            $query->where('match_datetime', '<', Carbon::now())->orderBy('match_datetime');
+            $query->where('date', '<', Carbon::now())->orderBy('date');
         });
     }
 
@@ -39,7 +50,9 @@ class MatchTip extends Model
     }
 
     public function scopeAuthUser($query){
-        return $query->where('user_id', Auth::user()->id);
+        return $query->whereHas('group_user', function($query){
+            return $query->where('user_id', Auth::user()->id);
+        });
     }
 
     public function match()
@@ -47,14 +60,9 @@ class MatchTip extends Model
         return $this->belongsTo('App\Match');
     }
 
-    public function user()
+    public function group_user()
     {
-        return $this->belongsTo('App\User');
-    }
-
-    public function group()
-    {
-        return $this->belongsTo('App\Group');
+        return $this->belongsTo('App\UserGroup');
     }
 
 }
