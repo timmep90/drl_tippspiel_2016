@@ -22,8 +22,8 @@ class UpdateController extends Controller
     public function update(Request $request)
     {
 
-        $resource = $request->json('Resource');
-        $id = $request->json('Id');
+        $resource = $request->json()->get('Resource');
+        $id = $request->json()->get('Id');
 
         if($resource == "Competition"){
             $league_id = League::fetchLeagues()->where('ext_id', $id)->first()->id;
@@ -38,11 +38,17 @@ class UpdateController extends Controller
             }
 
             return response('Competition data created.', 201);
-        }
 
-        else if($resource == "Fixture"){
+        } else if($resource == "Fixture") {
             $match = json_decode(FootballDataFacade::getFixture($id));
-            $league = \App\League::where('ext_id', $match->id)->first();
+
+            $id = after_last('/', $match->fixture->_links->competition->href);
+
+            $league = \App\League::where('ext_id', $id)->first();
+
+            if($league === null){
+                return response('Received', 200);
+            }
 
             $matches = json_decode(FootballDataFacade::getLeagueFixtures($league->ext_id))->fixtures;
 
@@ -61,10 +67,9 @@ class UpdateController extends Controller
             }
 
             return response('Fixture data created.', 201);
+        } else {
+            return response($resource.'<= unknown' ,501);
         }
-
-        else
-            return response('Content unknown.',501);
 
     }
 }

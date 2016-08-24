@@ -53,6 +53,21 @@ function setActivePage($currentPage, $id){
     return $currentPage;
 }
 
+// use strrevpos function in case your php version does not include it
+function strrevpos($instr, $needle)
+{
+    $rev_pos = strpos (strrev($instr), strrev($needle));
+    if ($rev_pos===false) return false;
+    else return strlen($instr) - $rev_pos - strlen($needle);
+};
+
+function after_last ($this, $inthat)
+{
+    if (!is_bool(strrevpos($inthat, $this)))
+        return substr($inthat, strrevpos($inthat, $this)+strlen($this));
+};
+
+
 
 function updateMatches($group_id){
     $league = \App\League::findGroup($group_id);
