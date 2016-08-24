@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bbe72cb950dca82923cca658fae11132",
-    "content-hash": "db404895bc1ff207503298eaa91a137e",
+    "hash": "f8ea4638aa14407109afa501db7a93ca",
+    "content-hash": "65c9d14074db5f002416a02a4e273389",
     "packages": [
         {
             "name": "acacha/admin-lte-template-laravel",
@@ -197,36 +197,6 @@
                 "web"
             ],
             "time": "2016-08-04 23:22:06"
-        },
-        {
-            "name": "andinger/openligadb-api",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/andinger/OpenLigaDbApi.git",
-                "reference": "bd37d80147d19b06cc6b5b0718e4654c363093ca"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/andinger/OpenLigaDbApi/zipball/bd37d80147d19b06cc6b5b0718e4654c363093ca",
-                "reference": "bd37d80147d19b06cc6b5b0718e4654c363093ca",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Andinger\\OpenLigaDbApi\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Andreas Kessler",
-                    "email": "info@andikessler.de"
-                }
-            ],
-            "description": "PHP API to OpenLigaDB",
-            "time": "2016-03-30 19:08:48"
         },
         {
             "name": "barryvdh/laravel-debugbar",

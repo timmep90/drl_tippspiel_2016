@@ -154,7 +154,6 @@ return [
          * Package Service Providers...
          */
         Collective\Html\HtmlServiceProvider::class,
-        Andinger\OpenLigaDbApi\Provider\OpenligaDBServiceProvider::class,
         Grambas\FootballData\FootballDataServiceProvider::class,
 
 
