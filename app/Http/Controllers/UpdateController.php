@@ -36,6 +36,8 @@ class UpdateController extends Controller
                     ['shortcut' => $team->code, 'logo' => $team->crestUrl, 'short_name' => $team->shortName])
                     ->leagues()->sync([$league_id]);
             }
+
+            return response('Competition data created.', 201);
         }
 
         else if($resource == "Fixture"){
@@ -57,12 +59,12 @@ class UpdateController extends Controller
                     ['home_team_erg'=>$match->result->goalsHomeTeam, 'vis_team_erg'=>$match->result->goalsAwayTeam,
                         'matchday'=>$match->matchday, 'date'=>\Carbon\Carbon::parse($match->date)->addHours(2), 'status' => $match->status]);
             }
+
+            return response('Fixture data created.', 201);
         }
 
         else
             return response('Content unknown.',501);
 
-
-        return response('Content received', 200);
     }
 }
