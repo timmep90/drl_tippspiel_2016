@@ -38,7 +38,7 @@ class UpdateController extends Controller
             }
         }
 
-        if($resource == "Fixture"){
+        else if($resource == "Fixture"){
             $match = json_decode(FootballDataFacade::getFixture($id));
             $league = \App\League::where('ext_id', $match->id)->first();
 
@@ -59,7 +59,10 @@ class UpdateController extends Controller
             }
         }
 
+        else
+            return response('Content unknown.',501);
 
-        return response('Content received', 200, ['content1'=>$request->resource]);
+
+        return response('Content received', 200);
     }
 }
