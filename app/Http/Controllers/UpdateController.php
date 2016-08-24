@@ -15,10 +15,11 @@ class UpdateController extends Controller
      *
      * @return Response
      */
-    public function index(Request $request)
+    public function update(Request $request)
     {
         $content = $request->getContent();
-        if ($content->resource == "Competition")
+        if ($content && $content->resource == "Competition")
             Match::first()->update(['home_team_erg'=>10]);
+        return response('New content obtained!', 201);
     }
 }
