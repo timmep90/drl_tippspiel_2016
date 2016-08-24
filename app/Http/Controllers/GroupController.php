@@ -49,7 +49,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        $leagues = League::fetchLeagues()->pluck('name', 'ext_id');
+        $leagues = League::pluck('name', 'ext_id');
         $users = User::pluck('name', 'id');
         return view('admin.group.create', compact('users', 'leagues'));
     }
@@ -66,7 +66,7 @@ class GroupController extends Controller
         $request->request->add(['league_id' => $league_id]);
         $request->request->add(['isActive' => isChecked($request->isActive)]);
         $request->request->add(['kt_points' => 3, 'tt_points' => 2, 'st_points' => 1, 'm_points' => 0]);
-
+/*
         $teams = json_decode(FootballDataFacade::getLeagueTeams($request->league))->teams;
 
         foreach ($teams as $team){
@@ -74,7 +74,7 @@ class GroupController extends Controller
                 ['shortcut'=>$team->code, 'logo'=>$team->crestUrl, 'short_name'=>$team->shortName])
                 ->leagues()->sync([$league_id]);
         }
-
+*/
         $group = Group::create($request->all());
 
         updateMatches($group->id);

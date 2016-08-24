@@ -53,6 +53,7 @@ function setActivePage($currentPage, $id){
     return $currentPage;
 }
 
+
 function updateMatches($group_id){
     $league = \App\League::findGroup($group_id);
 

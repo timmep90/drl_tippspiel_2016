@@ -42,7 +42,7 @@ class TippController extends Controller
         /* Set current page of Pagination */
         $currentPage = setActivePage($request->page, $id);
 
-        updateMatches($id);
+        //updateMatches($id);
 
         /* Calculate Ranking for all user */
         $user_list = calcAndSavePoints($id)->load('user');
@@ -72,7 +72,7 @@ class TippController extends Controller
         $currentPage = setActivePage($request->page, $id);
 
         /* Get football data from API and update DB */
-        updateMatches($id);
+        //updateMatches($id);
 
         /* Get user bets for matches */
         $mt_list = MatchTip::whereGroup($id)->authUser()->with('match.home_team', 'match.vis_team')
@@ -128,10 +128,8 @@ class TippController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function rank($id){
-        updateMatches($id);
-
+        //updateMatches($id);
         $user_groups = calcAndSavePoints($id);
-
 
         return view('tippspiel.ranking', compact('user_groups'));
 
