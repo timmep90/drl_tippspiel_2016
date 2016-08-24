@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('football-data.events', 'UpdateController@update');
+Route::get('football-data.events', 'UpdateController@update');
 Route::post('football-data.events', 'UpdateController@update');
 
 Route::get('home', 'HomeController@index');
