@@ -17,9 +17,8 @@ class UpdateController extends Controller
      */
     public function update(Request $request)
     {
+
         $content = $request->getContent();
-        if ($content && $content->resource == "Competition")
-            Match::first()->update(['home_team_erg'=>10]);
-        return response(200, 200);
+        return response('Content received', 200);
     }
 }
