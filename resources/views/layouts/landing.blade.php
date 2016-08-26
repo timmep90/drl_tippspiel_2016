@@ -43,12 +43,21 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
 <div id="navigation" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a href="/login">
 
-            <button type="button" class="navbar-toggle">
-                    Login
-            </button>
-            </a>
+            @if (Auth::guest())
+                <a href="/login">
+                <button type="button" class="navbar-toggle">
+                        Login
+                </button>
+                </a>
+            @else
+                <a href="/home">
+                <button type="button" class="navbar-toggle">
+                    {{ Auth::user()->name }}
+                </button>
+                </a>
+            @endif
+
 
             <a class="navbar-brand" href="#"><b>Lueti Apps</b></a>
         </div>
