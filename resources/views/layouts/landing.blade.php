@@ -43,11 +43,13 @@ Landing page based on Pratt: http://blacktie.co/demo/pratt/
 <div id="navigation" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+            <a href="/login">
+
+            <button type="button" class="navbar-toggle">
+                    Login
             </button>
+            </a>
+
             <a class="navbar-brand" href="#"><b>Lueti Apps</b></a>
         </div>
         <div class="navbar-collapse collapse">

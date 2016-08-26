@@ -37,12 +37,6 @@ class TippController extends Controller
      */
     public function show($id, Request $request)
     {
-        $match = FootballDataFacade::getFixture(152211);
-        $league = \App\League::where('ext_id', 430)->first();
-
-        if($league === null)
-            dd(json_decode($league));
-
         $league_id =League::findGroup($id)->id;
         /* Set current page of Pagination */
         $currentPage = setActivePage($request->page, $id);
