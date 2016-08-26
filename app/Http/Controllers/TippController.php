@@ -101,7 +101,7 @@ class TippController extends Controller
                 $matchtip = $matches_tips->find($i);
 
                 // Update match if it didn't start yet
-                if(Carbon::now()->subMinutes(30) <= $matchtip->match->date){
+                if(Carbon::now()->addMinutes(30) <= $matchtip->match->date){
                     $matchtip->update(['home_team_bet' => $t1, 'vis_team_bet' => $t2]);
                 }
                 $lastKey = $i;

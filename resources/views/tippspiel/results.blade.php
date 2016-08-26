@@ -37,7 +37,7 @@
                                 <td>{{$u->user->name}}</td>
                                 @foreach($tipp_list->where('group_user.user_id', $u->user->id) as $tipp)
 
-                                        @if( (\Carbon\Carbon::now() <= $tipp->match->date) && $u->user->id != Auth::user()->id)
+                                        @if( (\Carbon\Carbon::now()->addMinutes(30) <= $tipp->match->date) && $u->user->id != Auth::user()->id)
                                             @if($tipp->home_team_bet !== null && $tipp->vis_team_bet !== null)
                                                 <td class="alert alert-success">
                                                 - : -
