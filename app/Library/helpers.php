@@ -18,8 +18,8 @@ function isChecked($value){
 }
 
 function calcMatchPoints($matchTip){
-    $t1 = $matchTip->t1; $t2 = $matchTip->t2;
-    $erg1 = $matchTip->match->erg1; $erg2 = $matchTip->match->erg2;
+    $t1 = $matchTip->home_team_bet; $t2 = $matchTip->vis_team_bet;
+    $erg1 = $matchTip->match->home_team_erg; $erg2 = $matchTip->match->vis_team_erg;
     if($t1 === null || $t2 === null)
         $points = 0;
     else if($t1 == $erg1 && $t2 == $erg2)

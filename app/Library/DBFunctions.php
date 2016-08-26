@@ -24,8 +24,8 @@ function calcAndSavePoints($id){
         $mts = $matches_tips->where('group_user_id',$ug->id);
         $kt = 0; $tt = 0; $st = 0; $m = 0;
         foreach($mts as $mt){
-            $t1 = $mt->t1; $t2 = $mt->t2;
-            $erg1 = $mt->match->erg1; $erg2 = $mt->match->erg2;
+            $t1 = $mt->home_team_bet; $t2 = $mt->vis_team_bet;
+            $erg1 = $mt->match->home_team_erg; $erg2 = $mt->match->vis_team_erg;
             if($t1 === null || $t2 === null)
                 $m++;
             else if($t1 == $erg1 && $t2 == $erg2)
