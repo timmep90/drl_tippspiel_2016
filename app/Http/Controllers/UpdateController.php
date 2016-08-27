@@ -68,7 +68,7 @@ class UpdateController extends Controller
                 \App\Match::updateOrCreate(['league_id'=>$league->id, 'home_team_id'=>$homeTeam, 'vis_team_id'=>$visitingTeam],
                     ['home_team_erg'=>$match->result->goalsHomeTeam, 'vis_team_erg'=>$match->result->goalsAwayTeam,
                         'matchday'=>$match->matchday, 'date'=>\Carbon\Carbon::parse($match->date)->addHours(2), 'status' => $match->status,
-                        'ext_id'=>$id]);
+                        'ext_id'=>after_last('/', $match->_links->self->href)]);
             }
 
             return response('Fixture data created.', 201);
