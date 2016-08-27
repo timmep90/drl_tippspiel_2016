@@ -39,7 +39,7 @@ class UpdateController extends Controller
 
             return response('Competition data created.', 201);
 
-        } else if($resource == "Fixture") {
+        } else {
             $match = json_decode(FootballDataFacade::getFixture($id));
 
             $id = after_last('/', $match->fixture->_links->competition->href);
@@ -67,9 +67,9 @@ class UpdateController extends Controller
             }
 
             return response('Fixture data created.', 201);
-        } else {
+        } /*else {
             return response($resource.'<= unknown' ,501);
-        }
+        } */
 
     }
 }
