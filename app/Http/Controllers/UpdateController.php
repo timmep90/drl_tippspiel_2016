@@ -10,7 +10,6 @@ use Grambas\FootballData\Facades\FootballDataFacade;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Illuminate\Support\Facades\Log;
 
 class UpdateController extends Controller
 {
@@ -45,17 +44,16 @@ class UpdateController extends Controller
 
             $id = after_last('/', $match->fixture->_links->competition->href);
 
-            $league = \App\League::where('ext_id', $id)->first();
 
             if($league === null){
                 return response('Received', 200);
             } */
-            Log::error('Request info: '.$request);
+            $league = \App\League::where('ext_id', 430)->first();
 
-            $matches = json_decode(FootballDataFacade::getLeagueFixtures(430))->fixtures;
+            $matches = json_decode(FootballDataFacade::getLeagueFixtures(430)->fixtures;
 
-            $teams = \App\Team::whereHas('leagues', function ($query){
-                return $query->where('leagues.id', 430);
+            $teams = \App\Team::whereHas('leagues', function ($query) use ($league){
+                return $query->where('leagues.id', $league->id);
             })->get();
 
 
@@ -63,12 +61,12 @@ class UpdateController extends Controller
                 $homeTeam = $teams->where('name', $match->homeTeamName)->first()->id;
                 $visitingTeam = $teams->where('name', $match->awayTeamName)->first()->id;
 
-                \App\Match::updateOrCreate(['league_id'=>430, 'home_team_id'=>$homeTeam, 'vis_team_id'=>$visitingTeam],
+                \App\Match::updateOrCreate(['league_id'=>$league->id, 'home_team_id'=>$homeTeam, 'vis_team_id'=>$visitingTeam],
                     ['home_team_erg'=>$match->result->goalsHomeTeam, 'vis_team_erg'=>$match->result->goalsAwayTeam,
                         'matchday'=>$match->matchday, 'date'=>\Carbon\Carbon::parse($match->date)->addHours(2), 'status' => $match->status]);
             }
 
-            return response('Fixture data created.', 200);
+            return response('Fixture data created.', 201);
         } /*else {
             return response($resource.'<= unknown' ,501);
         } */
