@@ -42,6 +42,6 @@ function calcAndSavePoints($id){
             + $m * $settings->m_points;
         $ug->update(['kt' => $kt, 'tt' => $tt, 'st' => $st, 'm' => $m, 'points' => $pts]);
     }
-    return $group_user->sortByDesc('points');
+    return $group_user->sortByDesc('points')->sortByDesc('kt')->sortByDesc('tt')->sortByDesc('st');
 }
 
