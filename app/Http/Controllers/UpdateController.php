@@ -49,7 +49,7 @@ class UpdateController extends Controller
             if($league === null){
                 return response('Received', 200);
             } */
-            
+
             Log::info('Request info: '.$request);
 
             $league = \App\League::where('ext_id', 430)->first();
@@ -67,7 +67,8 @@ class UpdateController extends Controller
 
                 \App\Match::updateOrCreate(['league_id'=>$league->id, 'home_team_id'=>$homeTeam, 'vis_team_id'=>$visitingTeam],
                     ['home_team_erg'=>$match->result->goalsHomeTeam, 'vis_team_erg'=>$match->result->goalsAwayTeam,
-                        'matchday'=>$match->matchday, 'date'=>\Carbon\Carbon::parse($match->date)->addHours(2), 'status' => $match->status]);
+                        'matchday'=>$match->matchday, 'date'=>\Carbon\Carbon::parse($match->date)->addHours(2), 'status' => $match->status,
+                        'ext_id'=>$id]);
             }
 
             return response('Fixture data created.', 201);
