@@ -40,7 +40,7 @@ class UpdateController extends Controller
             return response('Competition data created.', 201);
 
         } else {
-            $match = json_decode(FootballDataFacade::getFixture($id));
+            /* $match = json_decode(FootballDataFacade::getFixture($id));
 
             $id = after_last('/', $match->fixture->_links->competition->href);
 
@@ -48,9 +48,9 @@ class UpdateController extends Controller
 
             if($league === null){
                 return response('Received', 200);
-            }
+            } */
 
-            $matches = json_decode(FootballDataFacade::getLeagueFixtures($league->ext_id))->fixtures;
+            $matches = json_decode(FootballDataFacade::getLeagueFixtures(430))->fixtures;
 
             $teams = \App\Team::whereHas('leagues', function ($query) use ($league){
                 return $query->where('leagues.id', $league->id);
@@ -66,7 +66,7 @@ class UpdateController extends Controller
                         'matchday'=>$match->matchday, 'date'=>\Carbon\Carbon::parse($match->date)->addHours(2), 'status' => $match->status]);
             }
 
-            return response('Fixture data created.', 201);
+            return response('Fixture data created.', 200);
         } /*else {
             return response($resource.'<= unknown' ,501);
         } */
