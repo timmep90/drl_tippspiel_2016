@@ -49,6 +49,7 @@ class UpdateController extends Controller
             if($league === null){
                 return response('Received', 200);
             } */
+            Log::info('Request info: '.$request);
 
             $matches = json_decode(FootballDataFacade::getLeagueFixtures(430))->fixtures;
 
