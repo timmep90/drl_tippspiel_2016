@@ -27,6 +27,8 @@ class UpdateController extends Controller
         $id = $request->json()->get('Id');
 
         if($resource == "Competition"){
+            Log::info('Competition Info:'.$request);
+
             $league_id = League::fetchLeagues()->where('ext_id', $id)->first()->id;
 
             $teams = json_decode(FootballDataFacade::getLeagueTeams($id))->teams;
@@ -38,17 +40,41 @@ class UpdateController extends Controller
                     ->leagues()->sync([$league_id]);
             }
 
+            Log::info('Competition info:'.$request);
+
             return response('Competition data created.', 201);
 
+        } else if ($resource == "Fixture") {
+            if ($request->json()->get("Updates")){
+                $update = json_decode($request->json()->get('Updates'));
+                $match = Match::where('ext_id', $id)->first();
+                if($match){
+                    $match->home_team_erg = (array_key_exists('goalsHomeTeam', $update) ? $update->goalsHomeTeam[1]: $match->home_team_erg);
+                    $match->vis_team_erg = (array_key_exists('goalsAwayTeam', $update) ? $update->goalsAwayTeam[1]: $match->vis_team_erg);
+                    $match->save();
+                }
+                if(!(array_key_exists('goalsHomeTeam', $update) || array_key_exists('goalsAwayTeam', $update))){
+                    Log::info('No known update'.$request);
+                }
+
+                return response('Fixture data created.', 201);
+            } else {
+                Log::info('No update:'.$request);
+            }
+            return response('Fixture data received.', 200);
         } else {
-            /* $match = json_decode(FootballDataFacade::getFixture($id));
+            Log::info('Type not known:'.$request);
+            return response('data received.', 200);
+        }
+        /* else {
+            // $match = json_decode(FootballDataFacade::getFixture($id));
 
-            $id = after_last('/', $match->fixture->_links->competition->href);
+            //$id = after_last('/', $match->fixture->_links->competition->href);
 
 
-            if($league === null){
-                return response('Received', 200);
-            } */
+            //if($league === null){
+            //    return response('Received', 200);
+            //}
 
             Log::info('Request info: '.$request);
 
@@ -72,7 +98,7 @@ class UpdateController extends Controller
             }
 
             return response('Fixture data created.', 201);
-        } /*else {
+        }  else {
             return response($resource.'<= unknown' ,501);
         } */
 
