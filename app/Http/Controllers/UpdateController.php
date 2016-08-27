@@ -50,7 +50,7 @@ class UpdateController extends Controller
             } */
             $league = \App\League::where('ext_id', 430)->first();
 
-            $matches = json_decode(FootballDataFacade::getLeagueFixtures(430)->fixtures;
+            $matches = json_decode(FootballDataFacade::getLeagueFixtures(430)->fixtures);
 
             $teams = \App\Team::whereHas('leagues', function ($query) use ($league){
                 return $query->where('leagues.id', $league->id);
