@@ -54,8 +54,8 @@ class UpdateController extends Controller
 
             $matches = json_decode(FootballDataFacade::getLeagueFixtures(430))->fixtures;
 
-            $teams = \App\Team::whereHas('leagues', function ($query) use ($league){
-                return $query->where('leagues.id', $league->id);
+            $teams = \App\Team::whereHas('leagues', function ($query){
+                return $query->where('leagues.id', 430);
             })->get();
 
 
@@ -63,7 +63,7 @@ class UpdateController extends Controller
                 $homeTeam = $teams->where('name', $match->homeTeamName)->first()->id;
                 $visitingTeam = $teams->where('name', $match->awayTeamName)->first()->id;
 
-                \App\Match::updateOrCreate(['league_id'=>$league->id, 'home_team_id'=>$homeTeam, 'vis_team_id'=>$visitingTeam],
+                \App\Match::updateOrCreate(['league_id'=>430, 'home_team_id'=>$homeTeam, 'vis_team_id'=>$visitingTeam],
                     ['home_team_erg'=>$match->result->goalsHomeTeam, 'vis_team_erg'=>$match->result->goalsAwayTeam,
                         'matchday'=>$match->matchday, 'date'=>\Carbon\Carbon::parse($match->date)->addHours(2), 'status' => $match->status]);
             }
