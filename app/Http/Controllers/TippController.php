@@ -47,11 +47,11 @@ class TippController extends Controller
         $user_list = calcAndSavePoints($id)->load('user');
 
         /* Fetch Matchdata for this group and day */
-        $match_list = Match::with('home_team', 'vis_team')->where('league_id', $league_id)->orderBy('date')
+        $match_list = Match::with('home_team', 'vis_team')->where('league_id', $league_id)
             ->paginate(Match::where([['league_id',$league_id],['matchday', $currentPage]])->count());
 
         /* Fetch User bets for these games */
-        $tipp_list = MatchTip::with('match')->whereMatchday($currentPage)->whereGroup($id)->orderBy('match.date')
+        $tipp_list = MatchTip::with('match')->whereMatchday($currentPage)->whereGroup($id)
             ->orderBy('group_user_id')->orderBy('id')->get();
 
         return view('tippspiel.results', compact('match_list', 'user_list', 'tipp_list'));
