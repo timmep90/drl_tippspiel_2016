@@ -74,7 +74,7 @@ class TippController extends Controller
         //updateMatches($id);
 
         /* Get user bets for matches */
-        $mt_list = MatchTip::whereGroup($id)->authUser()->with('match.home_team', 'match.vis_team')->orderBy('date')
+        $mt_list = MatchTip::whereGroup($id)->authUser()->with('match.home_team', 'match.vis_team')
             ->paginate(Match::where([['league_id',$league_id],['matchday', $currentPage]])->count());
         $group = Group::find($id);
 
