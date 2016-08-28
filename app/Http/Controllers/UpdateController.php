@@ -51,9 +51,10 @@ class UpdateController extends Controller
                 if($match){
                     $match->home_team_erg = (array_key_exists('goalsHomeTeam', $update) ? $update->goalsHomeTeam[1]: $match->home_team_erg);
                     $match->vis_team_erg = (array_key_exists('goalsAwayTeam', $update) ? $update->goalsAwayTeam[1]: $match->vis_team_erg);
+                    $match->date = (array_key_exists('dateTime', $update)) ? $update->dateTime[1]: $match->date;
                     $match->save();
                 }
-                if(!(array_key_exists('goalsHomeTeam', $update) || array_key_exists('goalsAwayTeam', $update))){
+                if(!(array_key_exists('goalsHomeTeam', $update) || array_key_exists('goalsAwayTeam', $update) || array_key_exists('dateTime', $update))){
                     Log::info('No known update'.$request);
                 }
 
