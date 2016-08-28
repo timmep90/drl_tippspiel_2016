@@ -23,6 +23,8 @@ class UpdateController extends Controller
     public function update(Request $request)
     {
 
+        Log::info('Client IP:'.$request->ip());
+
         $resource = $request->json()->get('Resource');
         $id = $request->json()->get('Id');
 
