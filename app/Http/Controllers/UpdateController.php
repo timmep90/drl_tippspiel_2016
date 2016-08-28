@@ -50,11 +50,15 @@ class UpdateController extends Controller
                     $update = json_decode($request->json()->get('Updates'));
                     $match = Match::where('ext_id', $id)->first();
                     if ($match) {
-                        $match->home_team_erg = (array_key_exists('goalsHomeTeam', $update) ? $update->goalsHomeTeam[1] : $match->home_team_erg);
-                        $match->vis_team_erg = (array_key_exists('goalsAwayTeam', $update) ? $update->goalsAwayTeam[1] : $match->vis_team_erg);
-                        $match->date = (array_key_exists('dateTime', $update) ? \Carbon\Carbon::parse($update->dateTime[1])->addHours(2) : $match->date);
-                        $match->status = (array_key_exists('status', $update) ? $update->status[1] : $match->status);
-                        $match->save();
+                        if(!($match->status == "FINISHED")){
+                            $match->home_team_erg = (array_key_exists('goalsHomeTeam', $update) ? $update->goalsHomeTeam[1] : $match->home_team_erg);
+                            $match->vis_team_erg = (array_key_exists('goalsAwayTeam', $update) ? $update->goalsAwayTeam[1] : $match->vis_team_erg);
+                            $match->date = (array_key_exists('dateTime', $update) ? \Carbon\Carbon::parse($update->dateTime[1])->addHours(2) : $match->date);
+                            $match->status = (array_key_exists('status', $update) ? $update->status[1] : $match->status);
+                            $match->save();
+                        } else {
+                            Log::info('Change on finished match: ' . $request);
+                        }
                     }
                     if (!(array_key_exists('goalsHomeTeam', $update) || array_key_exists('goalsAwayTeam', $update)
                         || array_key_exists('dateTime', $update) || array_key_exists('status', $update))) {
