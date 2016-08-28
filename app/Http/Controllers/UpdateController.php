@@ -23,50 +23,53 @@ class UpdateController extends Controller
     public function update(Request $request)
     {
 
-        Log::info('Client IP:'.$request->ip());
+        if ($request->ip == '176.28.9.96'){
+            $resource = $request->json()->get('Resource');
+            $id = $request->json()->get('Id');
 
-        $resource = $request->json()->get('Resource');
-        $id = $request->json()->get('Id');
+            if ($resource == "Competition") {
+                Log::info('Competition Info:' . $request);
 
-        if($resource == "Competition"){
-            Log::info('Competition Info:'.$request);
+                $league_id = League::fetchLeagues()->where('ext_id', $id)->first()->id;
 
-            $league_id = League::fetchLeagues()->where('ext_id', $id)->first()->id;
+                $teams = json_decode(FootballDataFacade::getLeagueTeams($id))->teams;
 
-            $teams = json_decode(FootballDataFacade::getLeagueTeams($id))->teams;
+                foreach ($teams as $team) {
 
-            foreach ($teams as $team) {
-
-                Team::updateOrCreate(['name' => $team->name],
-                    ['shortcut' => $team->code, 'logo' => $team->crestUrl, 'short_name' => $team->shortName])
-                    ->leagues()->sync([$league_id]);
-            }
-
-            Log::info('Competition info:'.$request);
-
-            return response('Competition data created.', 201);
-
-        } else if ($resource == "Fixture") {
-            if ($request->json()->get("Updates")){
-                $update = json_decode($request->json()->get('Updates'));
-                $match = Match::where('ext_id', $id)->first();
-                if($match){
-                    $match->home_team_erg = (array_key_exists('goalsHomeTeam', $update) ? $update->goalsHomeTeam[1]: $match->home_team_erg);
-                    $match->vis_team_erg = (array_key_exists('goalsAwayTeam', $update) ? $update->goalsAwayTeam[1]: $match->vis_team_erg);
-                    $match->date = (array_key_exists('dateTime', $update)) ? \Carbon\Carbon::parse($update->dateTime[1])->addHours(2): $match->date;
-                    $match->save();
-                }
-                if(!(array_key_exists('goalsHomeTeam', $update) || array_key_exists('goalsAwayTeam', $update) || array_key_exists('dateTime', $update))){
-                    Log::info('No known update'.$request);
+                    Team::updateOrCreate(['name' => $team->name],
+                        ['shortcut' => $team->code, 'logo' => $team->crestUrl, 'short_name' => $team->shortName])
+                        ->leagues()->sync([$league_id]);
                 }
 
-                return response('Fixture data created.', 201);
+                Log::info('Competition info:' . $request);
+
+                return response('Competition data created.', 201);
+
+            } else if ($resource == "Fixture") {
+                if ($request->json()->get("Updates")) {
+                    $update = json_decode($request->json()->get('Updates'));
+                    $match = Match::where('ext_id', $id)->first();
+                    if ($match) {
+                        $match->home_team_erg = (array_key_exists('goalsHomeTeam', $update) ? $update->goalsHomeTeam[1] : $match->home_team_erg);
+                        $match->vis_team_erg = (array_key_exists('goalsAwayTeam', $update) ? $update->goalsAwayTeam[1] : $match->vis_team_erg);
+                        $match->date = (array_key_exists('dateTime', $update)) ? \Carbon\Carbon::parse($update->dateTime[1])->addHours(2) : $match->date;
+                        $match->save();
+                    }
+                    if (!(array_key_exists('goalsHomeTeam', $update) || array_key_exists('goalsAwayTeam', $update) || array_key_exists('dateTime', $update))) {
+                        Log::info('No known update' . $request);
+                    }
+
+                    return response('Fixture data created.', 201);
+                } else {
+                    Log::info('No update:' . $request);
+                }
+                return response('Fixture data received.', 200);
             } else {
-                Log::info('No update:'.$request);
+                Log::info('Type not known:' . $request);
+                return response('data received.', 200);
             }
-            return response('Fixture data received.', 200);
         } else {
-            Log::info('Type not known:'.$request);
+            Log::info('Client IP unknown:' . $request->ip());
             return response('data received.', 200);
         }
         /* else {
