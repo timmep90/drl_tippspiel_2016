@@ -28,8 +28,7 @@ class UpdateController extends Controller
             $id = $request->json()->get('Id');
 
             if ($resource == "Competition") {
-                Log::info('Competition Info:' . $request);
-
+                /*
                 $league_id = League::fetchLeagues()->where('ext_id', $id)->first()->id;
 
                 $teams = json_decode(FootballDataFacade::getLeagueTeams($id))->teams;
@@ -39,7 +38,7 @@ class UpdateController extends Controller
                     Team::updateOrCreate(['name' => $team->name],
                         ['shortcut' => $team->code, 'logo' => $team->crestUrl, 'short_name' => $team->shortName])
                         ->leagues()->sync([$league_id]);
-                }
+                }*/
 
                 Log::info('Competition info:' . $request);
 
