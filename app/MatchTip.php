@@ -19,12 +19,6 @@ class MatchTip extends Model
         'points', 'points', 'home_team_bet', 'vis_team_bet', 'match_id',  'group_user_id'
     ];
 
-    public function scopeWithOrderedMatch($query){
-        $query->with(array('match' => function($query){
-            $query->orderBy('date')->orderBy('matchday');
-        }));
-    }
-
     public function scopeWhereMatchday($query, $matchday){
         return $query->whereHas('match', function($query) use ($matchday){
             $query->where('matchday', $matchday)->orderBy('date');
