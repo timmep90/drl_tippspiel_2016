@@ -100,10 +100,11 @@ class TippController extends Controller
             foreach($request->club1_tipp as $i => $tipp){
                 ($tipp == '')?$t1 = null: $t1 = $tipp;
                 ($request->club2_tipp[$i] == '')?$t2 = null: $t2 = $request->club2_tipp[$i];
-                $matchtip = $matches_tips->find($i);
+                $matchtip = $matches_tips->where('match_id', $i)->first();
 
                 // Update match if it didn't start yet
                 if(Carbon::now()->addMinutes(30) <= $matchtip->match->date){
+
                     $matchtip->update(['home_team_bet' => $t1, 'vis_team_bet' => $t2]);
                 }
                 $lastKey = $i;
@@ -117,7 +118,7 @@ class TippController extends Controller
         /* Flash Info for high values */
         ($info == true)? flash('Falschen Wert eingetragen? Bitte überprüfen.', 'alert-warning') : flash('Erfolgreich eingetragen');
 
-        $matchDay = $matches_tips->find($lastKey)->match->matchday;
+        $matchDay = $matches_tips->where('match_id', $i)->first()->match->matchday;
 
         return redirect('/group/'.$id.'/results?page='.$matchDay);
     }
