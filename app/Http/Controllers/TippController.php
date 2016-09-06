@@ -93,7 +93,7 @@ class TippController extends Controller
      */
     public function update($id, Requests\TippRequest $request){
         $lastKey = 1; $info = false;
-        $matches_tips = MatchTip::with('match')->get();
+        $matches_tips = MatchTip::with('match')->whereGroup($id)->authUser()->get();
 
         /* Update user bets */
         if($request->club1_tipp){
