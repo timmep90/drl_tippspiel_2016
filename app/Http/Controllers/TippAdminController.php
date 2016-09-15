@@ -56,6 +56,7 @@ class TippAdminController extends Controller
             $ug->pending = $pending;
             $ug->save();
         }
+        updateMatches($id);
 
         $users = UserGroup::with('user')->where('group_id', $id)
             ->orderBy('created_at', 'asc')->paginate(15);
