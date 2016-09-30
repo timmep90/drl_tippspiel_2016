@@ -52,7 +52,8 @@ class UpdateController extends Controller
                         if(!($match->status == "FINISHED")){
                             $match->home_team_erg = (array_key_exists('goalsHomeTeam', $update) ? $update->goalsHomeTeam[1] : $match->home_team_erg);
                             $match->vis_team_erg = (array_key_exists('goalsAwayTeam', $update) ? $update->goalsAwayTeam[1] : $match->vis_team_erg);
-                            $match->date = (array_key_exists('dateTime', $update) ? \Carbon\Carbon::parse($update->dateTime[1])->addHours(2) : $match->date);
+                            if($match->status == "SCHEDULED")
+                                $match->date = (array_key_exists('dateTime', $update) ? \Carbon\Carbon::parse($update->dateTime[1])->addHours(2) : $match->date);
                             $match->status = (array_key_exists('status', $update) ? $update->status[1] : $match->status);
                             $match->save();
                         } else {
