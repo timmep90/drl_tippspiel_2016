@@ -85,6 +85,6 @@ function updateMatches($group_id){
 
         \App\Match::updateOrCreate(['league_id'=>$league->id, 'home_team_id'=>$homeTeam, 'vis_team_id'=>$visitingTeam],
             ['home_team_erg'=>$match->result->goalsHomeTeam, 'vis_team_erg'=>$match->result->goalsAwayTeam,
-                'matchday'=>$match->matchday, 'date'=>\Carbon\Carbon::parse($match->date)->addHours(2), 'status' => $match->status]);
+                'matchday'=>$match->matchday, 'date'=>\Carbon\Carbon::parse($match->date)->addHours(1), 'status' => $match->status]);
     }
 }
