@@ -91,4 +91,3 @@ function updateMatches($group_id){
                 'matchday'=>$match->matchday, 'date'=>$date, 'status' => $match->status]);
     }
 }
-Carbon::
