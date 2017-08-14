@@ -23,7 +23,7 @@ class UpdateController extends Controller
     public function update(Request $request)
     {
 
-        if ($request->ip() == "83.169.21.147"){
+        if ($request->ip() == "77.21.129.213"){
             $resource = $request->json()->get('Resource');
             $id = $request->json()->get('Id');
 
