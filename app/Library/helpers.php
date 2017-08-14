@@ -74,7 +74,9 @@ function updateMatches($group_id){
 
     $matches = json_decode(FootballDataFacade::getLeagueFixtures($league->ext_id))->fixtures;
 
-    $teams = \App\Team::get();
+    $teams = \App\Team::whereHas('leagues', function ($query) use ($league){
+        return $query->where('leagues.id', $league->id);
+    })->get();
 
 
     foreach ($matches as $match){
