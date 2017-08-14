@@ -1,5 +1,5 @@
 {
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
