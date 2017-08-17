@@ -20,16 +20,21 @@ function isChecked($value){
 function calcMatchPoints($matchTip){
     $t1 = $matchTip->home_team_bet; $t2 = $matchTip->vis_team_bet;
     $erg1 = $matchTip->match->home_team_erg; $erg2 = $matchTip->match->vis_team_erg;
-    if($t1 === null || $t2 === null)
+    if(\Carbon\Carbon::now() <= $matchTip->match->date){
+      $points = '-';
+    }
+    else {
+      if ($t1 === null || $t2 === null)
         $points = 0;
-    else if($t1 == $erg1 && $t2 == $erg2)
+      else if ($t1 == $erg1 && $t2 == $erg2)
         $points = 5;
-    else if(($t1 - $t2) == ($erg1 - $erg2))
+      else if (($t1 - $t2) == ($erg1 - $erg2))
         $points = 4;
-    else if((($t1 > $t2) && ($erg1 > $erg2)) || (($t1 < $t2) && ($erg1 < $erg2)))
+      else if ((($t1 > $t2) && ($erg1 > $erg2)) || (($t1 < $t2) && ($erg1 < $erg2)))
         $points = 3;
-    else
+      else
         $points = 0;
+    }
     return $points;
 }
 
@@ -61,10 +66,10 @@ function strrevpos($instr, $needle)
     else return strlen($instr) - $rev_pos - strlen($needle);
 };
 
-function after_last ($this, $inthat)
+function after_last ($param, $inthat)
 {
-    if (!is_bool(strrevpos($inthat, $this)))
-        return substr($inthat, strrevpos($inthat, $this)+strlen($this));
+    if (!is_bool(strrevpos($inthat, $param)))
+        return substr($inthat, strrevpos($inthat, $param)+strlen($param));
 };
 
 
