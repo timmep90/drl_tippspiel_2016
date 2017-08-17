@@ -6,4 +6,6 @@
             : {{$mt->vis_team_erg}} <img src="{{$mt->vis_team->logo}}" class="team-logo"></td>
 
     @endforeach
+    <td>Spieltag</td>
+    <td>Total</td>
 </tr>

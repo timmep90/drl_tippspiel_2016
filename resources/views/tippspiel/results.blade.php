@@ -62,6 +62,13 @@
                                         @endif
 
                                 @endforeach
+
+                                <td class="alert-success">
+                                  {{calcMatchDayPoints($tipp_list, $u)}}
+                                </td>
+                                <td class="alert-success">
+                                  {{$u->points}}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

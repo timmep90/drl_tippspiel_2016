@@ -17,6 +17,16 @@ function isChecked($value){
         return true;
 }
 
+function calcMatchDayPoints($tipplist, $usergroup)
+{
+
+    $erg_matchday = 0;
+    foreach ($tipplist->where('group_user.user_id', $usergroup->user->id) as $tipp) {
+        $erg_matchday += calcMatchPoints($tipp);
+    }
+    return $erg_matchday;
+}
+
 function calcMatchPoints($matchTip){
     $t1 = $matchTip->home_team_bet; $t2 = $matchTip->vis_team_bet;
     $erg1 = $matchTip->match->home_team_erg; $erg2 = $matchTip->match->vis_team_erg;
