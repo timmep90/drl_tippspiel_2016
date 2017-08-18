@@ -8,7 +8,8 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
+            <a href="{{ url('/home') }}"><b>Lueti Apps</b> </a>
+            <p>Bundesliga Tippspiel</p>
         </div><!-- /.login-logo -->
 
     @if (count($errors) > 0)
