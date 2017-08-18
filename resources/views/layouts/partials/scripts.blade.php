@@ -24,6 +24,12 @@
 <script>
   $( function () {
     $('.standard-table').DataTable({
+      'aoColumnDefs': [
+        {
+          orderSequence: ["desc", "asc"],
+          aTargets: ['_all']
+        }
+      ],
       'order': [[ 1, 'desc' ]],
       'paging'      : false,
       'lengthChange': false,
@@ -36,6 +42,12 @@
 
   $( function () {
     $('.results-table').DataTable({
+      'aoColumnDefs': [
+        {
+          orderSequence: ["desc", "asc"],
+          aTargets: ['_all']
+        }
+      ],
       'paging'      : false,
       'order': [[ 10, 'desc' ]],
       'columns': [
