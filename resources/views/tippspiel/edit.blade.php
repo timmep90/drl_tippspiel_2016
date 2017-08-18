@@ -35,26 +35,24 @@
 
                                     <!-- /.box-header -->
                                     <div class="box-body">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-3">
+                                        <div class="col-lg-3">
                                             @if(\Carbon\Carbon::now()->addMinutes(30) < $mt->match->date)
                                                 {{Form::text('club1_tipp['.$mt->id.']', $mt->home_team_bet, ["class"=>"form-control"])}}
                                             @else
                                                 {{Form::text('club1_tipp['.$mt->id.']', $mt->home_team_bet, ["class"=>"form-control", "disabled"])}}
                                             @endif
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-lg-5">
                                             <img src="{{$mt->match->home_team->logo}}" class="team-logo"> {{$mt->match->home_team_erg}}
                                             : {{$mt->match->vis_team_erg}} <img src="{{$mt->match->vis_team->logo}}" class="team-logo">
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-lg-3">
                                             @if(\Carbon\Carbon::now()->addMinutes(30) < $mt->match->date)
                                                 {{Form::text('club2_tipp['.$mt->id.']',  $mt->vis_team_bet, ["class"=>"form-control"])}}
                                             @else
                                                 {{Form::text('club2_tipp['.$mt->id.']',  $mt->vis_team_bet, ["class"=>"form-control", "disabled"])}}
                                             @endif
                                         </div>
-                                        <div class="col-md-1"></div>
                                     </div>
                                 </div>
                             </div>
