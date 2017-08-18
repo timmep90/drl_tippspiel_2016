@@ -13,7 +13,7 @@
             <!-- /.box-header -->
 
             <div class="box-body text-center">
-                <table class="table table-striped table-bordered text-center">
+                <table class="table standard-table table-striped table-bordered text-center">
                     <thead>
                     <tr class="success">
                         <th>Spieler</th>

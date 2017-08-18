@@ -20,7 +20,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body text-center">
-                <table class="table table-striped table-bordered text-center">
+                <table class="table results-table table-bordered table-hover">
                     <thead>
                         @include('tippspiel.partials.resultsTableHeader')
                     </thead>
@@ -98,4 +98,6 @@
             </table>
         </div>
     </div>
+
+
 @endsection

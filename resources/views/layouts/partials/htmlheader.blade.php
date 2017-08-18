@@ -5,7 +5,8 @@
 
     <!-- Selfmade custom skins -->
     <link href="{{ asset('/css/customSkins.css') }}" rel="stylesheet" type="text/css" />
-
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
     <!-- Select2 Version 4.0.3 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <!-- Bootstrap 3.3.4 -->
