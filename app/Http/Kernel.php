@@ -55,6 +55,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'registered' => \App\Http\Middleware\WaitingForAccept::class,
+        'secure' => \App\Http\Middleware\RedirectHTTPS::class,
         'groupAdmin' => \App\Http\Middleware\AuthenticateGroupAdmin::class,
         'groupUser' => \App\Http\Middleware\AuthenticateGroupUser::class,
     ];
