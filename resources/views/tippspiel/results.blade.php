@@ -12,15 +12,15 @@
             <div class="box-header">
                 <h3 class="box-title">Tippergebnisse</h3>
 
-                <div class="box-tools">
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                        @include('layouts.partials.paginator', ['paginator' => $match_list])
-                    </ul>
-                </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body text-center">
-                <table class="table results-table table-bordered table-hover">
+                <div class="box-tools">
+                  <ul class="pagination pagination-sm no-margin pull-right">
+                    @include('layouts.partials.paginator', ['paginator' => $match_list])
+                  </ul>
+                </div>
+                <table class="table results-table table-bordered table-hover display" cellspacing="0" width="100%">
                     <thead>
                         @include('tippspiel.partials.resultsTableHeader')
                     </thead>
@@ -34,39 +34,39 @@
                             @else
                                 <tr>
                             @endif
-                                <td>{{$u->user->name}}</td>
+                                <td class="col-sm-1">{{$u->user->name}}</td>
                                 @foreach($tipp_list->where('group_user.user_id', $u->user->id) as $tipp)
 
                                         @if( (\Carbon\Carbon::now()->addMinutes(30) <= $tipp->match->date) && $u->user->id != Auth::user()->id)
                                             @if($tipp->home_team_bet !== null && $tipp->vis_team_bet !== null)
-                                                <td class="alert alert-success">
+                                                <td class="alert alert-success col-sm-1">
                                                 - : -
                                                 </td>
                                             @else
-                                                <td class="alert alert-warning">
+                                                <td class="alert alert-warning col-sm-1">
                                                 - : -
                                                 </td>
                                             @endif
                                         @elseif($tipp->home_team_bet !== null && $tipp->vis_team_bet !== null)
-                                            <td class="alert alert-success">
+                                            <td class="alert alert-success col-sm-1">
                                                 {{ $tipp->home_team_bet }} : {{$tipp->vis_team_bet }} ({{calcMatchPoints($tipp)}})
                                             </td>
                                         @elseif($u->user->id == Auth::user()->id)
-                                            <td class="alert alert-danger">
+                                            <td class="alert alert-danger col-sm-1">
                                                 - : -
                                             </td>
                                         @else
-                                            <td class="alert alert-warning">
+                                            <td class="alert alert-warning col-sm-1">
                                                 - : -
                                             </td>
                                         @endif
 
                                 @endforeach
 
-                                <td class="alert-success">
+                                <td class="alert-success col-sm-1">
                                   {{calcMatchDayPoints($tipp_list, $u)}}
                                 </td>
-                                <td class="alert-success">
+                                <td class="alert-success col-sm-1">
                                   {{$u->points}}
                                 </td>
                             </tr>

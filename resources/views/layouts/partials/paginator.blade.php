@@ -1,6 +1,6 @@
 <?php
 // config
-$link_limit = 10; // maximum number of links (a little bit inaccurate, but will be ok for now)
+$link_limit = 5; // maximum number of links (a little bit inaccurate, but will be ok for now)
 ?>
 
 @if ($paginator->lastPage() > 1)

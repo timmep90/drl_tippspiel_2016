@@ -7,7 +7,18 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('/js/app.min.js') }}" type="text/javascript"></script>
 <!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" charset="utf8" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.2.0/js/dataTables.rowReorder.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
+
+
 <!-- Select2 Version 4.0.3 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
@@ -22,8 +33,19 @@
 </script>
 
 <script>
-  $( function () {
+  $(document).ready( function () {
     $('.standard-table').DataTable({
+      responsive: {
+        details: {
+          display: $.fn.dataTable.Responsive.display.modal( {
+            header: function ( row ) {
+              var data = row.data();
+              return 'Details for '+data[0];
+            }
+          } ),
+          renderer: $.fn.dataTable.Responsive.renderer.tableAll()
+        }
+      },
       'aoColumnDefs': [
         {
           orderSequence: ["desc", "asc"],
@@ -40,8 +62,19 @@
     });
   } );
 
-  $( function () {
+  $(document).ready( function () {
     $('.results-table').DataTable({
+      responsive: {
+        details: {
+          display: $.fn.dataTable.Responsive.display.modal( {
+            header: function ( row ) {
+              var data = row.data();
+              return 'Details for '+data[0];
+            }
+          } ),
+          renderer: $.fn.dataTable.Responsive.renderer.tableAll()
+        }
+      },
       'aoColumnDefs': [
         {
           orderSequence: ["desc", "asc"],
