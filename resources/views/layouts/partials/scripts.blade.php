@@ -73,6 +73,7 @@
           renderer: $.fn.dataTable.Responsive.renderer.tableAll()
         }
       },
+      'order': [[ 10, 'desc' ]],
       'aoColumnDefs': [
         {
           orderSequence: ["desc", "asc"],
