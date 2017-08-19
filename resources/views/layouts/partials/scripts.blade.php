@@ -51,7 +51,6 @@
           aTargets: ['_all']
         }
       ],
-      'order': [[ 1, 'desc' ]],
       'paging'      : false,
       'lengthChange': false,
       'searching'   : false,
@@ -81,7 +80,6 @@
         }
       ],
       'paging'      : false,
-      'order': [[ 10, 'desc' ]],
       'columns': [
         null,
         { "orderable": false },
