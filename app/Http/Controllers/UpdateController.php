@@ -28,7 +28,7 @@ class UpdateController extends Controller
             $id = $request->json()->get('Id');
 
             if ($resource == "Competition") {
-                Log::info('Competition info:' . $request);
+                Log::info('Competition info:' . $request->json());
                 return response('Competition data created.', 201);
 
             } else if ($resource == "Fixture") {
