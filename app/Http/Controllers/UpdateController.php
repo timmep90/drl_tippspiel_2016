@@ -32,7 +32,7 @@ class UpdateController extends Controller
                 return response('Competition data created.', 201);
 
             } else if ($resource == "Fixture") {
-                Log::info('Update!?:' . $request);
+                Log::info('Update!?:' . $request->json());
                 if ($request->json()->get("Updates")) {
                     $update = json_decode($request->json()->get('Updates'));
                     $match = Match::where('ext_id', $id)->first();
