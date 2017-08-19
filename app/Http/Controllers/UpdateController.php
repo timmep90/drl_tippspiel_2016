@@ -33,6 +33,7 @@ class UpdateController extends Controller
 
             } else if ($resource == "Fixture") {
                 if ($request->json()->get("Updates")) {
+                    Log::info('Update!?:' . $request);
                     $update = json_decode($request->json()->get('Updates'));
                     $match = Match::where('ext_id', $id)->first();
                     if ($match) {
