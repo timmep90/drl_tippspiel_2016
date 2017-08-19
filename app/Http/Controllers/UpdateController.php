@@ -28,11 +28,11 @@ class UpdateController extends Controller
             $id = $request->json()->get('Id');
 
             if ($resource == "Competition") {
-                Log::info('Competition info:' . $request->json());
+                //Log::info('Competition info:' . $request->json());
                 return response('Competition data created.', 201);
 
             } else if ($resource == "Fixture") {
-                Log::info('Update!?:' . $request->json());
+                Log::info('Update!?:' . $request);
                 if ($request->json()->get("Updates")) {
                     $update = json_decode($request->json()->get('Updates'));
                     $match = Match::where('ext_id', $id)->first();
