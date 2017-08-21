@@ -95,16 +95,17 @@ function updateMatches($group_id){
         return $query->where('leagues.id', $league->id);
     })->get();
 
-
     foreach ($matches as $match){
         $homeTeam = $teams->where('name', $match->homeTeamName)->first()->id;
         $visitingTeam = $teams->where('name', $match->awayTeamName)->first()->id;
         $date = \Carbon\Carbon::createFromFormat('Y-m-d\TH:i:s\Z', $match->date, 'UTC');
         $tz = new DateTimeZone("Europe/Berlin");
         $date->setTimezone($tz);
-
-        \App\Match::updateOrCreate(['league_id'=>$league->id, 'home_team_id'=>$homeTeam, 'vis_team_id'=>$visitingTeam],
-            ['home_team_erg'=>$match->result->goalsHomeTeam, 'vis_team_erg'=>$match->result->goalsAwayTeam,
-                'matchday'=>$match->matchday, 'date'=>$date, 'status' => $match->status]);
+        if(strcmp(\App\Match::where('home_team_id', $homeTeam)->where('vis_team_id', $visitingTeam)
+          ->where('league_id', $league->id)->first()->status, "FINISHED")){
+            \App\Match::updateOrCreate(['league_id' => $league->id, 'home_team_id' => $homeTeam, 'vis_team_id' => $visitingTeam],
+              ['home_team_erg' => $match->result->goalsHomeTeam, 'vis_team_erg' => $match->result->goalsAwayTeam,
+              'matchday' => $match->matchday, 'date' => $date, 'status' => $match->status]);
+        }
     }
 }
