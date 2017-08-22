@@ -89,6 +89,8 @@ function updateMatches($group_id){
 
     $league = \App\League::findGroup($group_id);
 
+    $current_matchday = json_decode(FootballDataFacade::getLeague($league->ext_id))->currentMatchday;
+
     $matches = json_decode(FootballDataFacade::getLeagueFixtures($league->ext_id))->fixtures;
 
     $teams = \App\Team::whereHas('leagues', function ($query) use ($league){
@@ -101,6 +103,7 @@ function updateMatches($group_id){
         $date = \Carbon\Carbon::createFromFormat('Y-m-d\TH:i:s\Z', $match->date, 'UTC');
         $tz = new DateTimeZone("Europe/Berlin");
         $date->setTimezone($tz);
+        $league->update(['current_matchday' => $current_matchday]);
         if(strcmp(\App\Match::where('home_team_id', $homeTeam)->where('vis_team_id', $visitingTeam)
           ->where('league_id', $league->id)->first()->status, "FINISHED")){
             \App\Match::updateOrCreate(['league_id' => $league->id, 'home_team_id' => $homeTeam, 'vis_team_id' => $visitingTeam],
