@@ -62,8 +62,8 @@
 
   $(document).ready( function () {
     $('.results-table').DataTable({
-      "scrollX":        "200px",
-      'order': [[ 10, 'desc' ]],
+      "scrollX": true,
+      'order': [[ 1, 'desc' ]],
       'aoColumnDefs': [
         {
           orderSequence: ["desc", "asc"],
@@ -73,17 +73,17 @@
       'paging'      : false,
       'columns': [
         null,
-        { "orderable": false },
-        { "orderable": false },
-        { "orderable": false },
-        { "orderable": false },
-        { "orderable": false },
-        { "orderable": false },
-        { "orderable": false },
-        { "orderable": false },
-        { "orderable": false },
         null,
-        null
+        null,
+        { "orderable": false },
+        { "orderable": false },
+        { "orderable": false },
+        { "orderable": false },
+        { "orderable": false },
+        { "orderable": false },
+        { "orderable": false },
+        { "orderable": false },
+        { "orderable": false },
       ],
       'lengthChange': false,
       'searching'   : false,
