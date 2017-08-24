@@ -40,24 +40,24 @@
                                         @if( (\Carbon\Carbon::now()->addMinutes(30) <= $tipp->match->date) && $u->user->id != Auth::user()->id)
                                             @if($tipp->home_team_bet !== null && $tipp->vis_team_bet !== null)
                                                 <td class="alert alert-success col-sm-1">
-                                                - : -
+                                                -:-
                                                 </td>
                                             @else
                                                 <td class="alert alert-warning col-sm-1">
-                                                - : -
+                                                -:-
                                                 </td>
                                             @endif
                                         @elseif($tipp->home_team_bet !== null && $tipp->vis_team_bet !== null)
                                             <td class="alert alert-success col-sm-1">
-                                                {{ $tipp->home_team_bet }} : {{$tipp->vis_team_bet }} ({{calcMatchPoints($tipp)}})
+                                                {{ $tipp->home_team_bet }}:{{$tipp->vis_team_bet }} ({{calcMatchPoints($tipp)}})
                                             </td>
                                         @elseif($u->user->id == Auth::user()->id)
                                             <td class="alert alert-danger col-sm-1">
-                                                - : -
+                                                -:-
                                             </td>
                                         @else
                                             <td class="alert alert-warning col-sm-1">
-                                                - : -
+                                                -:-
                                             </td>
                                         @endif
 
