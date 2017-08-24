@@ -35,6 +35,15 @@
                                 <tr>
                             @endif
                                 <td class="col-sm-1">{{$u->user->name}}</td>
+
+
+                                <td class="alert-success col-sm-1">
+                                  {{calcMatchDayPoints($tipp_list, $u)}}
+                                </td>
+                                <td class="alert-success col-sm-1">
+                                  {{$u->points}}
+                                </td>
+
                                 @foreach($tipp_list->where('group_user.user_id', $u->user->id) as $tipp)
 
                                         @if( (\Carbon\Carbon::now()->addMinutes(30) <= $tipp->match->date) && $u->user->id != Auth::user()->id)
@@ -63,12 +72,6 @@
 
                                 @endforeach
 
-                                <td class="alert-success col-sm-1">
-                                  {{calcMatchDayPoints($tipp_list, $u)}}
-                                </td>
-                                <td class="alert-success col-sm-1">
-                                  {{$u->points}}
-                                </td>
                             </tr>
                         @endforeach
                     </tbody>

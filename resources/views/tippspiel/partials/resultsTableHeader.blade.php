@@ -1,5 +1,7 @@
 <tr class="success">
     <th class="all">Spieler</th>
+    <th class="all">Spieltag</th>
+    <th class="all">Total</th>
     @foreach($match_list as $i => $mt)
 
         <th class="min-tablet-l">
@@ -9,6 +11,4 @@
         </th>
 
     @endforeach
-    <th class="all">Spieltag</th>
-    <th class="all">Total</th>
 </tr>
