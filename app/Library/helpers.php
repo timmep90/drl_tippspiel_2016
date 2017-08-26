@@ -106,9 +106,16 @@ function updateMatches($group_id){
         \App\League::where('id', $league->id)->update(['current_matchday' => $current_matchday]);
         if(strcmp(\App\Match::where('home_team_id', $homeTeam)->where('vis_team_id', $visitingTeam)
           ->where('league_id', $league->id)->first()->status, "FINISHED")){
+          if(strcmp(\App\Match::where('home_team_id', $homeTeam)->where('vis_team_id', $visitingTeam)
+          ->where('league_id', $league->id)->first()->status, "SCHEDULED")){
+            \App\Match::updateOrCreate(['league_id' => $league->id, 'home_team_id' => $homeTeam, 'vis_team_id' => $visitingTeam],
+              ['home_team_erg' => $match->result->goalsHomeTeam, 'vis_team_erg' => $match->result->goalsAwayTeam,
+              'status' => $match->status]);
+          } else {
             \App\Match::updateOrCreate(['league_id' => $league->id, 'home_team_id' => $homeTeam, 'vis_team_id' => $visitingTeam],
               ['home_team_erg' => $match->result->goalsHomeTeam, 'vis_team_erg' => $match->result->goalsAwayTeam,
               'matchday' => $match->matchday, 'date' => $date, 'status' => $match->status]);
+          }
         }
     }
 }
